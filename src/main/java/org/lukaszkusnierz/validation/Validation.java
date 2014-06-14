@@ -9,6 +9,7 @@ import java.util.function.Function;
 public class Validation<T> {
 
 	private LinkedList<ValidationEntry<T, ?>> entries = new LinkedList<>();
+	private boolean breakOnAnyFailure = false;
 
 	private Validation() {
 	}
@@ -32,12 +33,23 @@ public class Validation<T> {
 		return this;
 	}
 
+	public Validation<T> breakOnAnyFailure() {
+		this.breakOnAnyFailure = true;
+		return this;
+	}
+
 	public ValidationResult<T> go( final T subject ) {
 		final ValidationResult<T> validationResult = new ValidationResult<>();
 		for ( final ValidationEntry<T, ?> entry : this.entries ) {
 			final Validated<?> validated = entry.validate( subject );
 			validationResult.add( validated );
-			if ( validated.isInvalid() && entry.isBreakOnFailure() ) {
+			if ( validated.isValid() ) {
+				continue;
+			}
+			if ( entry.isBreakOnFailure() ) {
+				break;
+			}
+			if ( this.breakOnAnyFailure ) {
 				break;
 			}
 		}
