@@ -5,7 +5,6 @@ import com.google.common.base.Preconditions;
 import org.lukaszkusnierz.validation.result.Invalid;
 import org.lukaszkusnierz.validation.result.Valid;
 import org.lukaszkusnierz.validation.result.Validated;
-import org.lukaszkusnierz.validation.validator.NotNullValidator;
 import org.lukaszkusnierz.validation.validator.Validator;
 
 import java.util.LinkedList;
@@ -21,7 +20,7 @@ public final class ValidationChain<T> {
 	}
 
 	public static <T> ValidationChain<T> notNull() {
-		return new ValidationChain<T>().add( new NotNullValidator<>() );
+		return new ValidationChain<T>().add( subject -> null != subject );
 	}
 
 	public ValidationChain<T> breakOnAnyFailure() {
