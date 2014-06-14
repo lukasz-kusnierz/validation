@@ -1,14 +1,14 @@
 package org.lukaszkusnierz.validation;
 
+import com.google.common.base.Preconditions;
 import org.lukaszkusnierz.validation.result.Validated;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.function.Function;
 
 public class Validation<T> {
 
-	private List<ValidationEntry<T, ?>> entries = new LinkedList<>();
+	private LinkedList<ValidationEntry<T, ?>> entries = new LinkedList<>();
 
 	private Validation() {
 	}
@@ -26,11 +26,20 @@ public class Validation<T> {
 		return this;
 	}
 
+	public Validation<T> breakOnFailure() {
+		Preconditions.checkState( !this.entries.isEmpty(), "Add some validation before you use 'breakOnFailure'" );
+		this.entries.getLast().breakOnFailure();
+		return this;
+	}
+
 	public ValidationResult<T> go( final T subject ) {
 		final ValidationResult<T> validationResult = new ValidationResult<>();
 		for ( final ValidationEntry<T, ?> entry : this.entries ) {
 			final Validated<?> validated = entry.validate( subject );
 			validationResult.add( validated );
+			if ( validated.isInvalid() && entry.isBreakOnFailure() ) {
+				break;
+			}
 		}
 		return validationResult;
 	}
