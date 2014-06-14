@@ -12,7 +12,21 @@ public class StringValidators {
 	}
 
 	public StringValidators notEmpty() {
-		this.chain.add( new NotEmptyValidator() );
+		return this.minLength( 1 );
+	}
+
+	public StringValidators minLength( final int minLength ) {
+		this.chain.add( subject -> null != subject && subject.length() >= minLength );
+		return this;
+	}
+
+	public StringValidators maxLength( final int maxLength ) {
+		this.chain.add( subject -> null != subject && subject.length() <= maxLength );
+		return this;
+	}
+
+	public StringValidators exactLength( final int length ) {
+		this.chain.add( subject -> null != subject && subject.length() == length );
 		return this;
 	}
 
