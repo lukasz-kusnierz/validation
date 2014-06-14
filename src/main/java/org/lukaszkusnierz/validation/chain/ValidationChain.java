@@ -16,9 +16,6 @@ public final class ValidationChain<T> {
 	private final LinkedList<ValidationChainEntry<T>> entries = new LinkedList<>();
 	private boolean breakOnAnyFailure = false;
 
-	private ValidationChain() {
-	}
-
 	public static <T> ValidationChain<T> use( final Validator<T> validator ) {
 		return new ValidationChain<T>().then( validator );
 	}
