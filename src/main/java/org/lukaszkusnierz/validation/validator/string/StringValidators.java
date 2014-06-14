@@ -12,7 +12,7 @@ public class StringValidators {
 	}
 
 	public StringValidators notEmpty() {
-		this.chain.then( new NotEmptyValidator() );
+		this.chain.add( new NotEmptyValidator() );
 		return this;
 	}
 

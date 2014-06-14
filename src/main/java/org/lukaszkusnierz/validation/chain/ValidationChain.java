@@ -17,11 +17,11 @@ public final class ValidationChain<T> {
 	private boolean breakOnAnyFailure = false;
 
 	public static <T> ValidationChain<T> use( final Validator<T> validator ) {
-		return new ValidationChain<T>().then( validator );
+		return new ValidationChain<T>().add( validator );
 	}
 
 	public static <T> ValidationChain<T> notNull() {
-		return new ValidationChain<T>().then( new NotNullValidator<>() );
+		return new ValidationChain<T>().add( new NotNullValidator<>() );
 	}
 
 	public ValidationChain<T> breakOnAnyFailure() {
@@ -35,7 +35,7 @@ public final class ValidationChain<T> {
 		return this;
 	}
 
-	public ValidationChain<T> then( final Validator<T> validator ) {
+	public ValidationChain<T> add( final Validator<T> validator ) {
 		this.entries.add( new ValidationChainEntry<T>( validator ) );
 		return this;
 	}
