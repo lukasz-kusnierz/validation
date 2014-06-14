@@ -21,6 +21,11 @@ public final class Invalid<T> implements Validated<T> {
 	}
 
 	@Override
+	public boolean isInvalid() {
+		return true;
+	}
+
+	@Override
 	public T or( final T alternative ) {
 		return alternative;
 	}

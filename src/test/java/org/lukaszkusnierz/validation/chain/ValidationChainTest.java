@@ -15,5 +15,6 @@ public class ValidationChainTest {
 				.validate( null );
 		//verify
 		Assert.assertFalse( result.isValid() );
+		Assert.assertTrue( result.isInvalid() );
 	}
 }

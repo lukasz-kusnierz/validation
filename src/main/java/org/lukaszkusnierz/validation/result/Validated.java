@@ -6,5 +6,7 @@ public interface Validated<T> {
 
 	boolean isValid();
 
+	boolean isInvalid();
+
 	T or( T alternative );
 }
