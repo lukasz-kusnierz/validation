@@ -21,7 +21,7 @@ public final class ValidationChain<T> {
 	}
 
 	public static <T> ValidationChain<T> notNull() {
-		return new ValidationChain<T>().then( NotNullValidator.instance() );
+		return new ValidationChain<T>().then( new NotNullValidator<>() );
 	}
 
 	public ValidationChain<T> breakOnAnyFailure() {
