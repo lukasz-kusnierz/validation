@@ -1,8 +1,8 @@
 package org.lukaszkusnierz.validation.chain;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import org.lukaszkusnierz.validation.validator.Validator;
+
+import java.util.Objects;
 
 final class ValidationChainEntry<T> {
 
@@ -11,7 +11,9 @@ final class ValidationChainEntry<T> {
 	private boolean breakOnError;
 
 	ValidationChainEntry( final Validator<T> validator ) {
-		Preconditions.checkArgument( null != validator, "Validator cannot be null" );
+		if ( null == validator ) {
+			throw new IllegalArgumentException( "Validator cannot be null" );
+		}
 		this.validator = validator;
 	}
 
@@ -33,7 +35,7 @@ final class ValidationChainEntry<T> {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode( validator, breakOnFailure );
+		return Objects.hash( validator, breakOnFailure, breakOnError );
 	}
 
 	@Override
@@ -45,14 +47,6 @@ final class ValidationChainEntry<T> {
 			return false;
 		}
 		final ValidationChainEntry other = ( ValidationChainEntry ) obj;
-		return Objects.equal( this.validator, other.validator ) && Objects.equal( this.breakOnFailure, other.breakOnFailure );
-	}
-
-	@Override
-	public String toString() {
-		return Objects.toStringHelper( this )
-				.add( "validator", validator )
-				.add( "breakOnFailure", breakOnFailure )
-				.toString();
+		return Objects.equals( this.validator, other.validator ) && Objects.equals( this.breakOnFailure, other.breakOnFailure ) && Objects.equals( this.breakOnError, other.breakOnError );
 	}
 }

@@ -1,6 +1,6 @@
 package org.lukaszkusnierz.validation.result;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
 
 public final class Valid<T> implements Validated<T> {
 
@@ -32,7 +32,7 @@ public final class Valid<T> implements Validated<T> {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode( reference );
+		return Objects.hash( reference );
 	}
 
 	@Override
@@ -44,13 +44,6 @@ public final class Valid<T> implements Validated<T> {
 			return false;
 		}
 		final Valid other = ( Valid ) obj;
-		return Objects.equal( this.reference, other.reference );
-	}
-
-	@Override
-	public String toString() {
-		return Objects.toStringHelper( this )
-				.add( "reference", reference )
-				.toString();
+		return Objects.equals( this.reference, other.reference );
 	}
 }

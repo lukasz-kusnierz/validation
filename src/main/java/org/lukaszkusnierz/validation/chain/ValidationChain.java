@@ -1,7 +1,5 @@
 package org.lukaszkusnierz.validation.chain;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import org.lukaszkusnierz.validation.result.Invalid;
 import org.lukaszkusnierz.validation.result.Valid;
 import org.lukaszkusnierz.validation.result.Validated;
@@ -9,6 +7,7 @@ import org.lukaszkusnierz.validation.validator.Validator;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public final class ValidationChain<T> {
 
@@ -29,7 +28,9 @@ public final class ValidationChain<T> {
 	}
 
 	public ValidationChain<T> breakOnFailure() {
-		Preconditions.checkState( !this.entries.isEmpty(), "You have to add at least one validator before you set 'breakOnFailure'" );
+		if ( this.entries.isEmpty() ) {
+			throw new IllegalStateException( "You have to add at least one validator before you set 'breakOnFailure'" );
+		}
 		this.entries.getLast().breakOnFailure();
 		return this;
 	}
@@ -62,7 +63,7 @@ public final class ValidationChain<T> {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode( entries, breakOnAnyFailure );
+		return Objects.hash( entries, breakOnAnyFailure );
 	}
 
 	@Override
@@ -74,14 +75,6 @@ public final class ValidationChain<T> {
 			return false;
 		}
 		final ValidationChain other = ( ValidationChain ) obj;
-		return Objects.equal( this.entries, other.entries ) && Objects.equal( this.breakOnAnyFailure, other.breakOnAnyFailure );
-	}
-
-	@Override
-	public String toString() {
-		return Objects.toStringHelper( this )
-				.add( "entries", entries )
-				.add( "breakOnAnyFailure", breakOnAnyFailure )
-				.toString();
+		return Objects.equals( this.entries, other.entries ) && Objects.equals( this.breakOnAnyFailure, other.breakOnAnyFailure );
 	}
 }

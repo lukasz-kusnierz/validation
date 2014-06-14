@@ -1,6 +1,5 @@
 package org.lukaszkusnierz.validation;
 
-import com.google.common.base.Preconditions;
 import org.lukaszkusnierz.validation.result.Validated;
 
 import java.util.LinkedList;
@@ -15,7 +14,9 @@ public final class Validation<T> {
 	}
 
 	public static <T> Validation<T> of( final Class<T> c ) {
-		Preconditions.checkArgument( null != c, "Class cannot be null, please provide the type you are going to validate" );
+		if ( null == c ) {
+			throw new IllegalArgumentException( "Class cannot be null, please provide the type you are going to validate" );
+		}
 		return new Validation<T>();
 	}
 
@@ -29,7 +30,9 @@ public final class Validation<T> {
 	}
 
 	public Validation<T> breakOnFailure() {
-		Preconditions.checkState( !this.entries.isEmpty(), "Add some validation before you use 'breakOnFailure'" );
+		if ( this.entries.isEmpty() ) {
+			throw new IllegalStateException( "Add some validation before you use 'breakOnFailure'" );
+		}
 		this.entries.getLast().breakOnFailure();
 		return this;
 	}

@@ -1,7 +1,8 @@
 package org.lukaszkusnierz.validation.validator.string;
 
-import com.google.common.base.Objects;
 import org.lukaszkusnierz.validation.chain.ValidationChain;
+
+import java.util.Objects;
 
 public class StringValidators {
 
@@ -32,7 +33,7 @@ public class StringValidators {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode( chain );
+		return Objects.hash( chain );
 	}
 
 	@Override
@@ -44,13 +45,6 @@ public class StringValidators {
 			return false;
 		}
 		final StringValidators other = ( StringValidators ) obj;
-		return Objects.equal( this.chain, other.chain );
-	}
-
-	@Override
-	public String toString() {
-		return Objects.toStringHelper( this )
-				.add( "chain", chain )
-				.toString();
+		return Objects.equals( this.chain, other.chain );
 	}
 }

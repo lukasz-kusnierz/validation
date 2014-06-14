@@ -1,6 +1,5 @@
 package org.lukaszkusnierz.validation;
 
-import com.google.common.base.Preconditions;
 import org.lukaszkusnierz.validation.chain.ValidationChain;
 import org.lukaszkusnierz.validation.result.Validated;
 
@@ -13,8 +12,12 @@ public final class ValidationEntry<T, FIELD> {
 	private boolean breakOnFailure = false;
 
 	public ValidationEntry( final ValidationChain<FIELD> chain, final Function<T, FIELD> fieldExtractor ) {
-		Preconditions.checkArgument( null != chain, "Validation chain cannot be null" );
-		Preconditions.checkArgument( null != fieldExtractor, "Field extractor cannot be null, please use method reference syntax" );
+		if ( null == chain ) {
+			throw new IllegalArgumentException( "Validation chain cannot be null" );
+		}
+		if ( null == fieldExtractor ) {
+			throw new IllegalArgumentException( "Field extractor cannot be null, please use method reference syntax" );
+		}
 		this.chain = chain;
 		this.fieldExtractor = fieldExtractor;
 	}
