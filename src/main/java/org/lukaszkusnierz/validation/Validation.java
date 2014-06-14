@@ -1,5 +1,7 @@
 package org.lukaszkusnierz.validation;
 
+import org.lukaszkusnierz.validation.result.Validated;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
@@ -7,6 +9,9 @@ import java.util.function.Function;
 public class Validation<T> {
 
 	private List<ValidationEntry<T, ?>> entries = new LinkedList<>();
+
+	private Validation() {
+	}
 
 	public static <T> Validation<T> of( final Class<T> c ) {
 		return new Validation<T>();
@@ -21,9 +26,12 @@ public class Validation<T> {
 		return this;
 	}
 
-	public void go( final T subject ) {
+	public ValidationResult<T> go( final T subject ) {
+		final ValidationResult<T> validationResult = new ValidationResult<>();
 		for ( final ValidationEntry<T, ?> entry : this.entries ) {
-			entry.validate( subject );
+			final Validated<?> validated = entry.validate( subject );
+			validationResult.add( validated );
 		}
+		return validationResult;
 	}
 }
