@@ -6,15 +6,16 @@ import org.lukaszkusnierz.validation.result.Validated;
 import java.util.LinkedList;
 import java.util.function.Function;
 
-public class Validation<T> {
+public final class Validation<T> {
 
-	private LinkedList<ValidationEntry<T, ?>> entries = new LinkedList<>();
+	private final LinkedList<ValidationEntry<T, ?>> entries = new LinkedList<>();
 	private boolean breakOnAnyFailure = false;
 
 	private Validation() {
 	}
 
 	public static <T> Validation<T> of( final Class<T> c ) {
+		Preconditions.checkArgument( null != c, "Class cannot be null, please provide the type you are going to validate" );
 		return new Validation<T>();
 	}
 

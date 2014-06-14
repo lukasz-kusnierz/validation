@@ -1,24 +1,26 @@
 package org.lukaszkusnierz.validation;
 
+import com.google.common.base.Preconditions;
 import org.lukaszkusnierz.validation.chain.ValidationChain;
 import org.lukaszkusnierz.validation.result.Validated;
 
 import java.util.function.Function;
 
-public class ValidationEntry<T, FIELD> {
+public final class ValidationEntry<T, FIELD> {
 
 	private final ValidationChain<FIELD> chain;
 	private final Function<T, FIELD> fieldExtractor;
 	private boolean breakOnFailure = false;
 
 	public ValidationEntry( final ValidationChain<FIELD> chain, final Function<T, FIELD> fieldExtractor ) {
+		Preconditions.checkArgument( null != chain, "Validation chain cannot be null" );
+		Preconditions.checkArgument( null != fieldExtractor, "Field extractor cannot be null, please use method reference syntax" );
 		this.chain = chain;
 		this.fieldExtractor = fieldExtractor;
 	}
 
 	public Validated<FIELD> validate( final T subject ) {
-		final FIELD fieldValue = this.fieldExtractor.apply( subject );
-		return this.chain.validate( fieldValue );
+		return this.chain.validate( this.fieldExtractor.apply( subject ) );
 	}
 
 	public void breakOnFailure() {
