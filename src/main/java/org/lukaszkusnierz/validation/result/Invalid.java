@@ -47,7 +47,7 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 	@Override
 	public <EX extends Exception> T checkedException( final Supplier<EX> exceptionSupplier ) throws EX {
 		if ( null == exceptionSupplier ) {
-			throw new IllegalArgumentException( "Exception supplier cannot be null" );
+			throw new IllegalArgumentException( "Exception supplier cannot be null, use method reference syntax to reference a constructor of your favourite exception, ex: orThrow().checkedException( IOException::new )" );
 		}
 		throw exceptionSupplier.get();
 	}
@@ -60,7 +60,7 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 	@Override
 	public <EX extends RuntimeException> T runtimeException( final Supplier<EX> exceptionSupplier ) throws EX {
 		if ( null == exceptionSupplier ) {
-			throw new IllegalArgumentException( "Exception supplier cannot be null" );
+			throw new IllegalArgumentException( "Exception supplier cannot be null, use method reference syntax to reference a constructor of your favourite exception, ex: orThrow().runtimeException( NumberFormatException::new )" );
 		}
 		throw exceptionSupplier.get();
 	}
