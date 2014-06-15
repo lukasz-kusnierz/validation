@@ -29,7 +29,7 @@ public final class ValidationChain<T> {
 
 	public ValidationChain<T> breakOnFailure() {
 		if ( this.entries.isEmpty() ) {
-			throw new IllegalStateException( "You have to add at least one validator before you set 'breakOnFailure'" );
+			throw new IllegalStateException( "You have to add at least one validator before you use breakOnFailure(), or maybe, did you mean breakOnAnyFailure() ?" );
 		}
 		this.entries.getLast().breakOnFailure();
 		return this;

@@ -12,7 +12,7 @@ final class ValidationChainEntry<T> {
 
 	ValidationChainEntry( final Validator<T> validator ) {
 		if ( null == validator ) {
-			throw new IllegalArgumentException( "Validator cannot be null" );
+			throw new IllegalArgumentException( "Validator just cannot be null, you have no excuse" );
 		}
 		this.validator = validator;
 	}

@@ -15,7 +15,7 @@ public final class Validation<T> {
 
 	public static <T> Validation<T> of( final Class<T> c ) {
 		if ( null == c ) {
-			throw new IllegalArgumentException( "Class cannot be null, please provide the type you are going to validate" );
+			throw new IllegalArgumentException( "Class cannot be null, please provide the type you are going to validate or use Object.class when desperate" );
 		}
 		return new Validation<T>();
 	}
@@ -31,7 +31,7 @@ public final class Validation<T> {
 
 	public Validation<T> breakOnFailure() {
 		if ( this.entries.isEmpty() ) {
-			throw new IllegalStateException( "Add some validation before you use 'breakOnFailure'" );
+			throw new IllegalStateException( "Add some validation before you use breakOnFailure(), or maybe, did you mean breakOnAnyFailure() ?" );
 		}
 		this.entries.getLast().breakOnFailure();
 		return this;

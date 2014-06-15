@@ -12,10 +12,10 @@ public final class ValidationEntryBuilder<T, FIELD> {
 
 	public ValidationEntryBuilder( final Validation<T> validation, final Function<T, FIELD> fieldExtractor ) {
 		if ( null == validation ) {
-			throw new IllegalArgumentException( "Validation cannot be null" );
+			throw new IllegalArgumentException( "Validation cannot be null, can it?" );
 		}
 		if ( null == fieldExtractor ) {
-			throw new IllegalArgumentException( "Field extractor cannot be null, please use method reference syntax" );
+			throw new IllegalArgumentException( "Field extractor cannot be null, use method reference syntax, ex: with( String::length )" );
 		}
 		this.validation = validation;
 		this.fieldExtractor = fieldExtractor;

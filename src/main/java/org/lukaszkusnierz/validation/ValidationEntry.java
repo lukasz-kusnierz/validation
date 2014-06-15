@@ -13,10 +13,10 @@ public final class ValidationEntry<T, FIELD> {
 
 	public ValidationEntry( final ValidationChain<FIELD> chain, final Function<T, FIELD> fieldExtractor ) {
 		if ( null == chain ) {
-			throw new IllegalArgumentException( "Validation chain cannot be null" );
+			throw new IllegalArgumentException( "Validation chain just cannot be null, you have no excuse" );
 		}
 		if ( null == fieldExtractor ) {
-			throw new IllegalArgumentException( "Field extractor cannot be null, please use method reference syntax" );
+			throw new IllegalArgumentException( "Field extractor cannot be null, use method reference syntax, ex: with( String::length )" );
 		}
 		this.chain = chain;
 		this.fieldExtractor = fieldExtractor;
