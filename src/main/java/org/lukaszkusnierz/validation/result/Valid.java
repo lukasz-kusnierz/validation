@@ -35,6 +35,11 @@ public final class Valid<T> implements Validated<T>, OrThrow<T> {
 	}
 
 	@Override
+	public T orNull() {
+		return this.reference;
+	}
+
+	@Override
 	public OrThrow<T> orThrow() {
 		return this;
 	}
@@ -63,6 +68,19 @@ public final class Valid<T> implements Validated<T>, OrThrow<T> {
 			throw new IllegalArgumentException( "Exception supplier cannot be null, use method reference syntax to reference a constructor of your favourite exception, ex: orThrow().runtimeException( NumberFormatException::new )" );
 		}
 		return this.reference;
+	}
+
+	@Override
+	public boolean equalReference( final Validated<T> another ) {
+		if ( null == another ) {
+			return false;
+		}
+		return Objects.equals( this.reference, another.get() );
+	}
+
+	@Override
+	public boolean equalReference( final T another ) {
+		return Objects.equals( this.reference, another );
 	}
 
 	@Override
