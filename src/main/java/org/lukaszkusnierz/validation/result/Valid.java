@@ -1,8 +1,11 @@
 package org.lukaszkusnierz.validation.result;
 
-import java.util.Objects;
+import org.lukaszkusnierz.validation.exception.ValidationException;
 
-public final class Valid<T> implements Validated<T> {
+import java.util.Objects;
+import java.util.function.Supplier;
+
+public final class Valid<T> implements Validated<T>, OrThrow<T> {
 
 	private final T reference;
 
@@ -27,6 +30,24 @@ public final class Valid<T> implements Validated<T> {
 
 	@Override
 	public T or( final T alternative ) {
+		return this.reference;
+	}
+
+	@Override
+	public OrThrow<T> orThrow() {
+		return this;
+	}
+
+	@Override
+	public T checkedException() throws ValidationException {
+		return this.reference;
+	}
+
+	@Override
+	public <EX extends Exception> T checkedException( final Supplier<EX> exceptionSupplier ) throws EX {
+		if ( null == exceptionSupplier ) {
+			throw new IllegalArgumentException( "Exception supplier cannot be null" );
+		}
 		return this.reference;
 	}
 

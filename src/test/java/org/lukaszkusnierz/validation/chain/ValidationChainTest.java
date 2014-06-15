@@ -2,6 +2,7 @@ package org.lukaszkusnierz.validation.chain;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.lukaszkusnierz.validation.exception.ValidationException;
 import org.lukaszkusnierz.validation.result.Validated;
 
 public class ValidationChainTest {
@@ -16,5 +17,17 @@ public class ValidationChainTest {
 		//verify
 		Assert.assertFalse( result.isValid() );
 		Assert.assertTrue( result.isInvalid() );
+	}
+
+	@Test(expected = ValidationException.class)
+	public void null_should_be_invalid_and_throw_checked_exception() throws ValidationException {
+		//setup
+		//examine
+		ValidationChain
+				.notNull()
+				.validate( null )
+				.orThrow()
+				.checkedException();
+		//verify
 	}
 }

@@ -9,4 +9,6 @@ public interface Validated<T> {
 	boolean isInvalid();
 
 	T or( T alternative );
+
+	OrThrow<T> orThrow();
 }
