@@ -1,6 +1,7 @@
 package org.lukaszkusnierz.validation.result;
 
-import org.lukaszkusnierz.validation.exception.ValidationException;
+import org.lukaszkusnierz.validation.exception.CheckedValidationException;
+import org.lukaszkusnierz.validation.exception.RuntimeValidationException;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -39,12 +40,25 @@ public final class Valid<T> implements Validated<T>, OrThrow<T> {
 	}
 
 	@Override
-	public T checkedException() throws ValidationException {
+	public T checkedException() throws CheckedValidationException {
 		return this.reference;
 	}
 
 	@Override
 	public <EX extends Exception> T checkedException( final Supplier<EX> exceptionSupplier ) throws EX {
+		if ( null == exceptionSupplier ) {
+			throw new IllegalArgumentException( "Exception supplier cannot be null" );
+		}
+		return this.reference;
+	}
+
+	@Override
+	public T runtimeException() throws RuntimeValidationException {
+		return this.reference;
+	}
+
+	@Override
+	public <EX extends RuntimeException> T runtimeException( final Supplier<EX> exceptionSupplier ) throws EX {
 		if ( null == exceptionSupplier ) {
 			throw new IllegalArgumentException( "Exception supplier cannot be null" );
 		}
