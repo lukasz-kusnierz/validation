@@ -1,6 +1,6 @@
 package org.lukaszkusnierz.validation;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.lukaszkusnierz.validation.validator.string.StringValidators;
 
@@ -9,7 +9,7 @@ public class ValidationTest {
 	@Test
 	public void complex_object_should_be_valid() {
 		//setup
-		final ComplexType complexType = new ComplexType( 4, "descritpion" );
+		final ComplexType complexType = new ComplexType( 4, "description" );
 		//examine
 		ValidationResult<ComplexType> validationResult = Validation.of( ComplexType.class )
 				.validate( ComplexType::getNumber ).with( i -> i > 3 )
@@ -22,7 +22,7 @@ public class ValidationTest {
 	@Test
 	public void complex_object_should_be_invalid() {
 		//setup
-		final ComplexType complexType = new ComplexType( 4, "descritpion" );
+		final ComplexType complexType = new ComplexType( 4, "description" );
 		//examine
 		ValidationResult<ComplexType> validationResult = Validation.of( ComplexType.class )
 				.validate( ComplexType::getNumber ).with( i -> i > 3 )
