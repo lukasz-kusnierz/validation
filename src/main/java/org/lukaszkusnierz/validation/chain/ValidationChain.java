@@ -36,7 +36,7 @@ public final class ValidationChain<T> {
 	}
 
 	public ValidationChain<T> add( final Validator<T> validator ) {
-		this.entries.add( new ValidationChainEntry<T>( validator ) );
+		this.entries.add( new ValidationChainEntry<>( validator ) );
 		return this;
 	}
 
@@ -51,7 +51,7 @@ public final class ValidationChain<T> {
 			if ( this.breakOnAnyFailure ) {
 				break;
 			}
-			if ( entry.isBreakOnError() ) {
+			if ( entry.isBreakOnFailure() ) {
 				break;
 			}
 		}

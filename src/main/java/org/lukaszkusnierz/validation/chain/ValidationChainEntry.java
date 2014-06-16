@@ -8,7 +8,6 @@ final class ValidationChainEntry<T> {
 
 	private final Validator<T> validator;
 	private boolean breakOnFailure = false;
-	private boolean breakOnError;
 
 	ValidationChainEntry( final Validator<T> validator ) {
 		if ( null == validator ) {
@@ -25,8 +24,8 @@ final class ValidationChainEntry<T> {
 		return this.validator;
 	}
 
-	public boolean isBreakOnError() {
-		return this.breakOnError;
+	public boolean isBreakOnFailure() {
+		return this.breakOnFailure;
 	}
 
 	public void breakOnFailure() {
@@ -35,7 +34,7 @@ final class ValidationChainEntry<T> {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash( validator, breakOnFailure, breakOnError );
+		return Objects.hash( validator, breakOnFailure );
 	}
 
 	@Override
@@ -47,6 +46,6 @@ final class ValidationChainEntry<T> {
 			return false;
 		}
 		final ValidationChainEntry other = ( ValidationChainEntry ) obj;
-		return Objects.equals( this.validator, other.validator ) && Objects.equals( this.breakOnFailure, other.breakOnFailure ) && Objects.equals( this.breakOnError, other.breakOnError );
+		return Objects.equals( this.validator, other.validator ) && Objects.equals( this.breakOnFailure, other.breakOnFailure );
 	}
 }
