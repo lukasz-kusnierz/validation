@@ -2,6 +2,7 @@ package org.lukaszkusnierz.validation;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.lukaszkusnierz.validation.result.Validated;
 import org.lukaszkusnierz.validation.validator.string.StringValidators;
 
 public class ValidationTest {
@@ -11,7 +12,7 @@ public class ValidationTest {
 		//setup
 		final ComplexType complexType = new ComplexType( 4, "description" );
 		//examine
-		ValidationResult<ComplexType> validationResult = Validation.of( ComplexType.class )
+		Validated<ComplexType> validationResult = Validation.of( ComplexType.class )
 				.validate( ComplexType::getNumber ).with( i -> i > 3 )
 				.validate( ComplexType::getText ).with( new StringValidators().exactLength( 11 ).chain() )
 				.go( complexType );
@@ -24,7 +25,7 @@ public class ValidationTest {
 		//setup
 		final ComplexType complexType = new ComplexType( 4, "description" );
 		//examine
-		ValidationResult<ComplexType> validationResult = Validation.of( ComplexType.class )
+		Validated<ComplexType> validationResult = Validation.of( ComplexType.class )
 				.validate( ComplexType::getNumber ).with( i -> i > 3 )
 				.validate( ComplexType::getText ).with( new StringValidators().exactLength( 10 ).chain() )
 				.go( complexType );

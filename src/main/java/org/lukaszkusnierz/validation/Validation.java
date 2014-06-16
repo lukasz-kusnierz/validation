@@ -1,8 +1,11 @@
 package org.lukaszkusnierz.validation;
 
+import org.lukaszkusnierz.validation.result.Invalid;
+import org.lukaszkusnierz.validation.result.Valid;
 import org.lukaszkusnierz.validation.result.Validated;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Function;
 
 public final class Validation<T> {
@@ -42,14 +45,14 @@ public final class Validation<T> {
 		return this;
 	}
 
-	public ValidationResult<T> go( final T subject ) {
-		final ValidationResult<T> validationResult = new ValidationResult<>();
+	public Validated<T> go( final T subject ) {
+		final List<Validated<?>> invalid = new LinkedList<>();
 		for ( final ValidationEntry<T, ?> entry : this.entries ) {
 			final Validated<?> validated = entry.validate( subject );
-			validationResult.add( validated );
 			if ( validated.isValid() ) {
 				continue;
 			}
+			invalid.add( validated );
 			if ( entry.isBreakOnFailure() ) {
 				break;
 			}
@@ -57,6 +60,6 @@ public final class Validation<T> {
 				break;
 			}
 		}
-		return validationResult;
+		return invalid.isEmpty() ? new Valid<>( subject ) : new Invalid<>( subject );
 	}
 }
