@@ -22,10 +22,10 @@ public final class ValidationEntryBuilder<T, FIELD> {
 	}
 
 	public Validation<T> with( final ValidationChain<FIELD> validationChain ) {
-		return this.validation.add( new ValidationEntry<T, FIELD>( validationChain, this.fieldExtractor ) );
+		return this.validation.add( new ValidationEntry<>( validationChain, this.fieldExtractor ) );
 	}
 
 	public Validation<T> with( final Validator<FIELD> validator ) {
-		return this.validation.add( new ValidationEntry<T, FIELD>( new ValidationChain<FIELD>().add( validator ), this.fieldExtractor ) );
+		return this.validation.add( new ValidationEntry<>( new ValidationChain<FIELD>().add( validator ), this.fieldExtractor ) );
 	}
 }

@@ -20,7 +20,7 @@ public final class Validation<T> {
 		if ( null == c ) {
 			throw new IllegalArgumentException( "Class cannot be null, please provide the type you are going to validate or use Object.class when desperate" );
 		}
-		return new Validation<T>();
+		return new Validation<>();
 	}
 
 	public <FIELD> ValidationEntryBuilder<T, FIELD> validate( final Function<T, FIELD> useMethodReferenceSyntax ) {
