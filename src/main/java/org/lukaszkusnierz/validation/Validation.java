@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 public final class Validation<T> {
 
-	private final LinkedList<SimpleValidationEntry<T, ?>> entries = new LinkedList<>();
+	private final LinkedList<ValidationEntry<T, ?>> entries = new LinkedList<>();
 	private boolean breakOnAnyFailure = false;
 
 	private Validation() {
@@ -27,7 +27,7 @@ public final class Validation<T> {
 		return new ValidationEntryBuilder( this, useMethodReferenceSyntax );
 	}
 
-	public Validation<T> add( final SimpleValidationEntry<T, ?> entry ) {
+	public Validation<T> add( final ValidationEntry<T, ?> entry ) {
 		this.entries.add( entry );
 		return this;
 	}
@@ -47,7 +47,7 @@ public final class Validation<T> {
 
 	public Validated<T> go( final T subject ) {
 		final List<Validated<?>> invalid = new LinkedList<>();
-		for ( final SimpleValidationEntry<T, ?> entry : this.entries ) {
+		for ( final ValidationEntry<T, ?> entry : this.entries ) {
 			final Validated<?> validated = entry.validate( subject );
 			if ( validated.isValid() ) {
 				continue;
