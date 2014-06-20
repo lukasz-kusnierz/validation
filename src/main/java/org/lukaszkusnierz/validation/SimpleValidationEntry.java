@@ -5,13 +5,13 @@ import org.lukaszkusnierz.validation.result.Validated;
 
 import java.util.function.Function;
 
-public final class ValidationEntry<T, FIELD> {
+public final class SimpleValidationEntry<T, FIELD> {
 
 	private final ValidationChain<FIELD> chain;
 	private final Function<T, FIELD> fieldExtractor;
 	private boolean breakOnFailure = false;
 
-	public ValidationEntry( final ValidationChain<FIELD> chain, final Function<T, FIELD> fieldExtractor ) {
+	public SimpleValidationEntry( final ValidationChain<FIELD> chain, final Function<T, FIELD> fieldExtractor ) {
 		if ( null == chain ) {
 			throw new IllegalArgumentException( "Validation chain just cannot be null, you have no excuse" );
 		}
