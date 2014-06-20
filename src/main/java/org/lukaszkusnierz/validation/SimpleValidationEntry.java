@@ -5,7 +5,7 @@ import org.lukaszkusnierz.validation.result.Validated;
 
 import java.util.function.Function;
 
-public final class SimpleValidationEntry<T, FIELD> {
+public final class SimpleValidationEntry<T, FIELD> implements ValidationEntry<T, FIELD> {
 
 	private final ValidationChain<FIELD> chain;
 	private final Function<T, FIELD> fieldExtractor;
@@ -22,14 +22,17 @@ public final class SimpleValidationEntry<T, FIELD> {
 		this.fieldExtractor = fieldExtractor;
 	}
 
+	@Override
 	public Validated<FIELD> validate( final T subject ) {
 		return this.chain.validate( this.fieldExtractor.apply( subject ) );
 	}
 
+	@Override
 	public void breakOnFailure() {
 		this.breakOnFailure = true;
 	}
 
+	@Override
 	public boolean isBreakOnFailure() {
 		return breakOnFailure;
 	}
