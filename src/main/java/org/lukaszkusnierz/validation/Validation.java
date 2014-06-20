@@ -27,6 +27,10 @@ public final class Validation<T> {
 		return new ValidationEntryBuilder( this, useMethodReferenceSyntax );
 	}
 
+	public <ITERABLE extends Iterable<FIELD>, FIELD> IterableValidationEntryBuilder<T, FIELD, ITERABLE> validateAll( final Function<T, ITERABLE> useMethodReferenceSyntax ) {
+		return new IterableValidationEntryBuilder<>( this, useMethodReferenceSyntax );
+	}
+
 	public Validation<T> add( final ValidationEntry<T, ?> entry ) {
 		this.entries.add( entry );
 		return this;
