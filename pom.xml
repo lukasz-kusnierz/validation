@@ -14,10 +14,23 @@
 
 	<name>Validation</name>
 
+	<description>Utility library for general-purpose validation.</description>
+	<url>http://github.com/lukasz-kusnierz/validation</url>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://opensource.org/licenses/MIT</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
 	<developers>
 		<developer>
+			<id>lukasz-kusnierz</id>
 			<name>Łukasz Kuśnierz</name>
 			<url>http://lukaszkusnierz.org</url>
+			<email>github@lukaszkusnierz.org</email>
 		</developer>
 	</developers>
 
