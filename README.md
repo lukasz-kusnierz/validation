@@ -38,3 +38,39 @@ SampleComplexType validComplexObjectOrNull = Validation.of( SampleComplexType.cl
 ```
 
 ## Validated
+
+Every validation operation (except invoking single Validator directly) returns a Validated<T> object.
+With Validated<T> object you can easily decide how you want to proceed.
+Your options are:
+
+```java
+T object = validatedObject.orNull();
+```
+
+```java
+T object = validatedObject.or( T alternative );
+```
+
+```java
+T object = validatedObject.orThrow().checkedException(); // throws CheckedValidationException
+```
+
+```java
+T object = validatedObject.orThrow().checkedException( MyCheckedException::new ); // throws MyCheckedException
+```
+
+```java
+T object = validatedObject.orThrow().runtimeException(); // throws RuntimeValidationException
+```
+
+```java
+T object = validatedObject.orThrow().runtimeException( MyRuntimeException::new ); // throws MyRuntimeException
+```
+Finally, you can provide any custom exception supplier:
+
+```java
+T object = validatedObject.orThrow().checkedException( () -> {
+			String message = "ooops";
+			return new MyCheckedException( message );
+		}); // throws MyCheckedException
+```
