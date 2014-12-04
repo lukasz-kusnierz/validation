@@ -43,6 +43,30 @@ Every validation operation (except invoking single Validator directly) returns a
 With Validated<T> object you can easily decide how you want to proceed.
 Your options are:
 
+First of all, you can just unwrap the original object when you are not interested if it is valid or not.
+
+```java
+T object = validatedObject.get();
+```
+
+You can check, if the object is valid or not. There are two methods for better readability:
+
+```java
+boolean valid = validatedObject.isValid();
+```
+
+```java
+boolean invalid = validatedObject.isInvalid();
+```
+
+```java
+boolean equal = validatedObject.equalReference( T another );
+```
+
+```java
+boolean equal = validatedObject.equalReference( Validated<T> another );
+```
+
 ```java
 T object = validatedObject.orNull();
 ```
