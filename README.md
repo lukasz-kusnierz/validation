@@ -49,7 +49,7 @@ First of all, you can just unwrap the original object when you are not intereste
 T object = validatedObject.get();
 ```
 
-You can check, if the object is valid or not. There are two methods for better readability:
+You can check if the object is valid or not. There are two methods for better readability:
 
 ```java
 boolean valid = validatedObject.isValid();
@@ -58,6 +58,8 @@ boolean valid = validatedObject.isValid();
 ```java
 boolean invalid = validatedObject.isInvalid();
 ```
+
+You can check if the original object is equal to another one, you don't even need to unwrap another Validated object.
 
 ```java
 boolean equal = validatedObject.equalReference( T another );
