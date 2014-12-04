@@ -104,3 +104,13 @@ T object = validatedObject.orThrow().checkedException( () -> {
 			return new MyCheckedException( message );
 		}); // throws MyCheckedException
 ```
+
+### Discussion
+You may ask, why the following construct is not supported, and why you must provide exception supplier either directly, or using method reference syntax:
+
+```java
+T object = validatedObject.orThrow().runtimeException( new MyRuntimeException() ); // throws MyRuntimeException
+```
+
+This way exception object would be created every time, even if the validation turns out to be successful.
+Creating exceptions in Java is significantly more expensive than creating a regular object, bacause it involves filling in the stack trace. You should avoid creating unnecessary exceptions.
