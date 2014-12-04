@@ -8,6 +8,8 @@ This utility library is intended to make your general-purpose validation a breez
 
 ## Validator
 
+Validator is a fundamental building block. It has to say whether the argument is valid or not. Validators are not expected to throw an exception. Therefore, any exception thrown by the validator will be thrown up for you to handle, and will not be considered part of the validation process.
+
 ```java
 public interface Validator<T> {
 	boolean isValid( T subject );
