@@ -69,6 +69,8 @@ boolean equal = validatedObject.equalReference( T another );
 boolean equal = validatedObject.equalReference( Validated<T> another );
 ```
 
+You can use Optional-style ```orNull()``` and ```or( T alternative )``` and think of valid object as a ```Present``` and invalid as an ```Absent``` instance:
+
 ```java
 T object = validatedObject.orNull();
 ```
@@ -76,6 +78,8 @@ T object = validatedObject.orNull();
 ```java
 T object = validatedObject.or( T alternative );
 ```
+
+Next, you may want to raise any kind of exception in case of invalid data. Both checked an unchecked exceptions are supported. ```CheckedValidationException``` and ```RuntimeValidationException``` are provided for you, in case you don't need to create your own exceptions for this occasion:
 
 ```java
 T object = validatedObject.orThrow().checkedException(); // throws CheckedValidationException
