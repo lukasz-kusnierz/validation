@@ -8,6 +8,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Used to setup a validation of complex object, containing of multiple values being validated separately.
+ *
+ * @param <T> type of object under validation
+ */
 public final class Validation<T> {
 
 	private final LinkedList<ValidationEntry<T, ?>> entries = new LinkedList<>();
@@ -16,17 +21,35 @@ public final class Validation<T> {
 	private Validation() {
 	}
 
-	public static <T> Validation<T> of( final Class<T> c ) {
-		if ( null == c ) {
+	/**
+	 * Creates Validation instance. There is no other way to do it.
+	 *
+	 * @param typeYouWantToValidate type you want to validate
+	 * @param <T> type you validate
+	 * @return Validation object
+	 */
+	public static <T> Validation<T> of( final Class<T> typeYouWantToValidate ) {
+		if ( null == typeYouWantToValidate ) {
 			throw new IllegalArgumentException( "Class cannot be null, please provide the type you are going to validate or use Object.class when desperate" );
 		}
 		return new Validation<>();
 	}
 
+	/**
+	 * @param useMethodReferenceSyntax function extracting a field from the object under validation; use method reference syntax for readability
+	 * @param <FIELD> type of the field extracted from the object under validation
+	 * @return
+	 */
 	public <FIELD> ValidationEntryBuilder<T, FIELD> validate( final Function<T, FIELD> useMethodReferenceSyntax ) {
 		return new ValidationEntryBuilder( this, useMethodReferenceSyntax );
 	}
 
+	/**
+	 * @param useMethodReferenceSyntax function extracting an <strong>iterable</strong> field from the object under validation; use method reference syntax for readability
+	 * @param <ITERABLE> iterable type of the field
+	 * @param <FIELD> type of the iterable
+	 * @return
+	 */
 	public <ITERABLE extends Iterable<FIELD>, FIELD> IterableValidationEntryBuilder<T, FIELD, ITERABLE> validateAll( final Function<T, ITERABLE> useMethodReferenceSyntax ) {
 		return new IterableValidationEntryBuilder<>( this, useMethodReferenceSyntax );
 	}
@@ -36,6 +59,11 @@ public final class Validation<T> {
 		return this;
 	}
 
+	/**
+	 * Validation will finish immediately if previous validator has failed.
+	 *
+	 * @return Validation object
+	 */
 	public Validation<T> breakOnFailure() {
 		if ( this.entries.isEmpty() ) {
 			throw new IllegalStateException( "Add some validation before you use breakOnFailure(), or maybe, did you mean breakOnAnyFailure() ?" );
@@ -44,11 +72,22 @@ public final class Validation<T> {
 		return this;
 	}
 
+	/**
+	 * Validation will finish immediately whenever any Validator fails. By default, all validators are executed, even if some of them fail.
+	 *
+	 * @return Validation object
+	 */
 	public Validation<T> breakOnAnyFailure() {
 		this.breakOnAnyFailure = true;
 		return this;
 	}
 
+	/**
+	 * Triggers the validation process.
+	 *
+	 * @param subject object to be validated
+	 * @return Validated object
+	 */
 	public Validated<T> go( final T subject ) {
 		final List<Validated<?>> invalid = new LinkedList<>();
 		for ( final ValidationEntry<T, ?> entry : this.entries ) {
