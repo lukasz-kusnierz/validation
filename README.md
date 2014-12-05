@@ -8,7 +8,7 @@ This utility library is intended to make your general-purpose validation a breez
 
 ## Validator
 
-Validator is a fundamental building block. It has to say whether the argument is valid or not. Validators are not expected to throw an exception. Therefore, any exception thrown by the validator will be thrown up for you to handle, and will not be considered part of the validation process.
+```Validator<T>``` is a fundamental building block. It has to say whether the argument is valid or not. Validators are not expected to throw an exception. Therefore, any exception thrown by the validator will be thrown up for you to handle, and will not be considered part of the validation process.
 
 ```java
 public interface Validator<T> {
@@ -17,6 +17,8 @@ public interface Validator<T> {
 ```
 
 ## ValidationChain
+
+```ValidationChain``` is used to combine multiple validators to perform a validation of **single** value.
 
 ```java
 ValidationChain
@@ -27,6 +29,8 @@ ValidationChain
 ```
 
 ## Validation
+
+```Validation<T>``` is used to setup a validation of complex object, containing of multiple values being validated separately.
 
 ```java
 SampleComplexType complexObject = new SampleComplexType( 4, "text", Arrays.asList( 20, 30, 18 ) );
@@ -41,8 +45,8 @@ SampleComplexType validComplexObjectOrNull = Validation.of( SampleComplexType.cl
 
 ## Validated
 
-Every validation operation (except invoking single Validator directly) returns a Validated<T> object.
-With Validated<T> object you can easily decide how you want to proceed.
+Every validation operation (except invoking single ```Validator<T>``` directly) returns a ```Validated<T>``` object.
+With ```Validated<T>``` object you can easily decide how you want to proceed.
 Your options are:
 
 First of all, you can just unwrap the original object when you are not interested if it is valid or not.
@@ -61,7 +65,7 @@ boolean valid = validatedObject.isValid();
 boolean invalid = validatedObject.isInvalid();
 ```
 
-You can check if the original object is equal to another one, you don't even need to unwrap another Validated object.
+You can check if the original object is equal to another one, you don't even need to unwrap another ```Validated<T>``` object.
 
 ```java
 boolean equal = validatedObject.equalReference( T another );
