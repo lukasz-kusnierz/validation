@@ -3,6 +3,7 @@ package org.lukaszkusnierz.validation.chain;
 import org.lukaszkusnierz.validation.result.Invalid;
 import org.lukaszkusnierz.validation.result.Valid;
 import org.lukaszkusnierz.validation.result.Validated;
+import org.lukaszkusnierz.validation.validator.NotNullValidator;
 import org.lukaszkusnierz.validation.validator.Validator;
 
 import java.util.LinkedList;
@@ -19,7 +20,14 @@ public final class ValidationChain<T> {
 	}
 
 	public static <T> ValidationChain<T> notNull() {
-		return new ValidationChain<T>().add( subject -> null != subject );
+		return new ValidationChain<T>().add( new NotNullValidator<>() );
+	}
+
+	public static <T> ValidationChain<T> empty() {
+		return new ValidationChain<>();
+	}
+
+	private ValidationChain() {
 	}
 
 	public ValidationChain<T> breakOnAnyFailure() {

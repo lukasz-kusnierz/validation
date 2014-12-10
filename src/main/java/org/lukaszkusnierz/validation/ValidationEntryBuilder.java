@@ -26,6 +26,6 @@ public final class ValidationEntryBuilder<T, FIELD> {
 	}
 
 	public Validation<T> with( final Validator<FIELD> validator ) {
-		return this.validation.add( new SimpleValidationEntry<>( new ValidationChain<FIELD>().add( validator ), this.fieldExtractor ) );
+		return this.validation.add( new SimpleValidationEntry<>( ValidationChain.use( validator ), this.fieldExtractor ) );
 	}
 }

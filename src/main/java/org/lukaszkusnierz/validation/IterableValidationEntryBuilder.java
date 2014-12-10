@@ -26,6 +26,6 @@ public final class IterableValidationEntryBuilder<T, FIELD, ITERABLE extends Ite
 	}
 
 	public Validation<T> with( final Validator<FIELD> validator ) {
-		return this.validation.add( new IterableValidationEntry<>( new ValidationChain<FIELD>().add( validator ), this.fieldExtractor ) );
+		return this.validation.add( new IterableValidationEntry<>( ValidationChain.use( validator ), this.fieldExtractor ) );
 	}
 }
