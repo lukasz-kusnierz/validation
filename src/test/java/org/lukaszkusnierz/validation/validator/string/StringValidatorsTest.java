@@ -1,21 +1,58 @@
 package org.lukaszkusnierz.validation.validator.string;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.lukaszkusnierz.validation.result.Validated;
 
+import static org.junit.Assert.assertTrue;
+
 public class StringValidatorsTest {
+
+	@Test
+	public void notBlank_just_whitespace_should_be_invalid() throws Exception {
+		//setup
+		//examine
+		final Validated<String> validated = new StringValidators()
+			.notBlank()
+			.chain()
+			.validate("   \t  \n ");
+		//verify
+		assertTrue(validated.isInvalid());
+	}
+
+	@Test
+	public void notBlank_null_should_be_invalid() throws Exception {
+		//setup
+		//examine
+		final Validated<String> validated = new StringValidators()
+			.notBlank()
+			.chain()
+			.validate(null);
+		//verify
+		assertTrue(validated.isInvalid());
+	}
+
+	@Test
+	public void notBlank_any_char_should_be_valid() throws Exception {
+		//setup
+		//examine
+		final Validated<String> validated = new StringValidators()
+			.notBlank()
+			.chain()
+			.validate("    t    \n");
+		//verify
+		assertTrue(validated.isValid());
+	}
 
 	@Test
 	public void not_empty_string_should_be_valid() {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.notEmpty()
-				.chain()
-				.validate( "not empty" );
+			.notEmpty()
+			.chain()
+			.validate("not empty");
 		//verify
-		Assert.assertTrue( validated.isValid() );
+		assertTrue(validated.isValid());
 	}
 
 	@Test
@@ -23,11 +60,11 @@ public class StringValidatorsTest {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.notEmpty()
-				.chain()
-				.validate( "" );
+			.notEmpty()
+			.chain()
+			.validate("");
 		//verify
-		Assert.assertTrue( validated.isInvalid() );
+		assertTrue(validated.isInvalid());
 	}
 
 	@Test
@@ -35,11 +72,11 @@ public class StringValidatorsTest {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.notEmpty()
-				.chain()
-				.validate( null );
+			.notEmpty()
+			.chain()
+			.validate(null);
 		//verify
-		Assert.assertTrue( validated.isInvalid() );
+		assertTrue(validated.isInvalid());
 	}
 
 	@Test
@@ -47,11 +84,11 @@ public class StringValidatorsTest {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.minLength( 3 )
-				.chain()
-				.validate( "22" );
+			.minLength(3)
+			.chain()
+			.validate("22");
 		//verify
-		Assert.assertTrue( validated.isInvalid() );
+		assertTrue(validated.isInvalid());
 	}
 
 	@Test
@@ -59,11 +96,11 @@ public class StringValidatorsTest {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.minLength( 3 )
-				.chain()
-				.validate( "222" );
+			.minLength(3)
+			.chain()
+			.validate("222");
 		//verify
-		Assert.assertTrue( validated.isValid() );
+		assertTrue(validated.isValid());
 	}
 
 	@Test
@@ -71,11 +108,11 @@ public class StringValidatorsTest {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.maxLength( 3 )
-				.chain()
-				.validate( "2222" );
+			.maxLength(3)
+			.chain()
+			.validate("2222");
 		//verify
-		Assert.assertTrue( validated.isInvalid() );
+		assertTrue(validated.isInvalid());
 	}
 
 	@Test
@@ -83,11 +120,11 @@ public class StringValidatorsTest {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.maxLength( 3 )
-				.chain()
-				.validate( "222" );
+			.maxLength(3)
+			.chain()
+			.validate("222");
 		//verify
-		Assert.assertTrue( validated.isValid() );
+		assertTrue(validated.isValid());
 	}
 
 	@Test
@@ -95,11 +132,11 @@ public class StringValidatorsTest {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.exactLength( 4 )
-				.chain()
-				.validate( "222" );
+			.exactLength(4)
+			.chain()
+			.validate("222");
 		//verify
-		Assert.assertTrue( validated.isInvalid() );
+		assertTrue(validated.isInvalid());
 	}
 
 	@Test
@@ -107,11 +144,11 @@ public class StringValidatorsTest {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.exactLength( 4 )
-				.chain()
-				.validate( "2222" );
+			.exactLength(4)
+			.chain()
+			.validate("2222");
 		//verify
-		Assert.assertTrue( validated.isValid() );
+		assertTrue(validated.isValid());
 	}
 
 	@Test
@@ -119,12 +156,12 @@ public class StringValidatorsTest {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.minLength( 3 )
-				.maxLength( 4 )
-				.chain()
-				.validate( "22" );
+			.minLength(3)
+			.maxLength(4)
+			.chain()
+			.validate("22");
 		//verify
-		Assert.assertTrue( validated.isInvalid() );
+		assertTrue(validated.isInvalid());
 	}
 
 	@Test
@@ -132,12 +169,12 @@ public class StringValidatorsTest {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.minLength( 3 )
-				.maxLength( 4 )
-				.chain()
-				.validate( "22222" );
+			.minLength(3)
+			.maxLength(4)
+			.chain()
+			.validate("22222");
 		//verify
-		Assert.assertTrue( validated.isInvalid() );
+		assertTrue(validated.isInvalid());
 	}
 
 	@Test
@@ -145,11 +182,11 @@ public class StringValidatorsTest {
 		//setup
 		//examine
 		final Validated<String> validated = new StringValidators()
-				.minLength( 3 )
-				.maxLength( 4 )
-				.chain()
-				.validate( "222" );
+			.minLength(3)
+			.maxLength(4)
+			.chain()
+			.validate("222");
 		//verify
-		Assert.assertTrue( validated.isValid() );
+		assertTrue(validated.isValid());
 	}
 }

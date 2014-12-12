@@ -5,27 +5,32 @@ import org.lukaszkusnierz.validation.validator.NotNullValidator;
 
 public class StringValidators extends ValidationChainBuilder<String> {
 
+	public StringValidators notBlank() {
+		chain().add(new NotBlankValidator());
+		return this;
+	}
+
 	public StringValidators notNull() {
-		this.chain.add( new NotNullValidator<>() );
+		chain().add(new NotNullValidator<>());
 		return this;
 	}
 
 	public StringValidators notEmpty() {
-		return this.minLength( 1 );
+		return this.minLength(1);
 	}
 
-	public StringValidators minLength( final int minLength ) {
-		this.chain.add( subject -> null != subject && subject.length() >= minLength );
+	public StringValidators minLength(final int minLength) {
+		chain().add(subject -> null != subject && subject.length() >= minLength);
 		return this;
 	}
 
-	public StringValidators maxLength( final int maxLength ) {
-		this.chain.add( subject -> null != subject && subject.length() <= maxLength );
+	public StringValidators maxLength(final int maxLength) {
+		chain().add(subject -> null != subject && subject.length() <= maxLength);
 		return this;
 	}
 
-	public StringValidators exactLength( final int length ) {
-		this.chain.add( subject -> null != subject && subject.length() == length );
+	public StringValidators exactLength(final int length) {
+		chain().add(subject -> null != subject && subject.length() == length);
 		return this;
 	}
 }

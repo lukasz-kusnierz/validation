@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public abstract class ValidationChainBuilder<T> {
 
-	protected final ValidationChain<T> chain = ValidationChain.empty();
+	private final ValidationChain<T> chain = ValidationChain.empty();
 
 	public ValidationChain<T> chain() {
 		return this.chain;
