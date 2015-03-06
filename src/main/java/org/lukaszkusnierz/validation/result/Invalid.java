@@ -84,7 +84,7 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 		if ( null == mapper ) {
 			throw new IllegalArgumentException( "Mapping function cannot be null. Use lambda or method reference syntax for short implementation" );
 		}
-		return ( Validated<TARGET> ) this;
+		return new Invalid<>( mapper.apply( this.reference ) );
 	}
 
 	@Override
