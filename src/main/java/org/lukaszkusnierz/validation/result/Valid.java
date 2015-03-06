@@ -35,6 +35,14 @@ public final class Valid<T> implements Validated<T>, OrThrow<T> {
 	}
 
 	@Override
+	public T or( final Supplier<T> supplier ) {
+		if ( null == supplier ) {
+			throw new IllegalArgumentException( "Supplier cannot be null. Please note you can use method reference syntax to reference a constructor, ex: or( AtomicInteger::new )" );
+		}
+		return this.reference;
+	}
+
+	@Override
 	public T orNull() {
 		return this.reference;
 	}

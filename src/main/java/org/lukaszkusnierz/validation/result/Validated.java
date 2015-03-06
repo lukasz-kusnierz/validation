@@ -1,5 +1,7 @@
 package org.lukaszkusnierz.validation.result;
 
+import java.util.function.Supplier;
+
 public interface Validated<T> {
 
 	/**
@@ -26,6 +28,14 @@ public interface Validated<T> {
 	 * @return object under validation if the validation was successful, <code>alternative</code> otherwise
 	 */
 	T or( T alternative );
+
+	/**
+	 * Allows to use alternate object provided by the supplier in case of invalid one
+	 *
+	 * @param supplier supplier used to create alternate object in case of failed validation
+	 * @return object under validation if the validation was successful, or an object provided by the supplier
+	 */
+	T or( Supplier<T> supplier );
 
 	/**
 	 * @return object under validation if the validation was successful, <code>null</code> otherwise
