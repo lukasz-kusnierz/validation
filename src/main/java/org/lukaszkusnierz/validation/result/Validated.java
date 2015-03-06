@@ -1,5 +1,6 @@
 package org.lukaszkusnierz.validation.result;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public interface Validated<T> {
@@ -48,6 +49,8 @@ public interface Validated<T> {
 	 * @return exception builder
 	 */
 	OrThrow<T> orThrow();
+
+	<TARGET> Validated<TARGET> map( Function<T, TARGET> mapper );
 
 	boolean equalReference( Validated<T> another );
 

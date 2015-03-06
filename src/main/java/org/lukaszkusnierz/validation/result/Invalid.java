@@ -4,6 +4,7 @@ import org.lukaszkusnierz.validation.exception.CheckedValidationException;
 import org.lukaszkusnierz.validation.exception.RuntimeValidationException;
 
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class Invalid<T> implements Validated<T>, OrThrow<T> {
@@ -76,6 +77,14 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 			throw new IllegalArgumentException( "Exception supplier cannot be null, use method reference syntax to reference a constructor of your favourite exception, ex: orThrow().runtimeException( NumberFormatException::new )" );
 		}
 		throw exceptionSupplier.get();
+	}
+
+	@Override
+	public <TARGET> Validated<TARGET> map( final Function<T, TARGET> mapper ) {
+		if ( null == mapper ) {
+			throw new IllegalArgumentException( "Mapping function cannot be null. Use lambda or method reference syntax for short implementation" );
+		}
+		return ( Validated<TARGET> ) this;
 	}
 
 	@Override
