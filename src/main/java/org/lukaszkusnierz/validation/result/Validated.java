@@ -1,5 +1,6 @@
 package org.lukaszkusnierz.validation.result;
 
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -49,6 +50,8 @@ public interface Validated<T> {
 	 * @return exception builder
 	 */
 	OrThrow<T> orThrow();
+
+	Optional<T> asOptional();
 
 	<TARGET> Validated<TARGET> map( Function<T, TARGET> mapper );
 

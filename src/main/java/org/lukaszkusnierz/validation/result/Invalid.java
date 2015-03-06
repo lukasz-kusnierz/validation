@@ -4,6 +4,7 @@ import org.lukaszkusnierz.validation.exception.CheckedValidationException;
 import org.lukaszkusnierz.validation.exception.RuntimeValidationException;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -77,6 +78,11 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 			throw new IllegalArgumentException( "Exception supplier cannot be null, use method reference syntax to reference a constructor of your favourite exception, ex: orThrow().runtimeException( NumberFormatException::new )" );
 		}
 		throw exceptionSupplier.get();
+	}
+
+	@Override
+	public Optional<T> asOptional() {
+		return Optional.empty();
 	}
 
 	@Override
