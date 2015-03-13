@@ -9,7 +9,7 @@
 
 	<groupId>org.lukaszkusnierz</groupId>
 	<artifactId>validation</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Validation</name>
@@ -44,6 +44,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -54,6 +61,7 @@
 	</dependencies>
 
 	<build>
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -69,9 +77,16 @@
 					<artifactId>maven-gpg-plugin</artifactId>
 					<version>1.5</version>
 				</plugin>
+				<plugin>
+					<groupId>org.sonatype.plugins</groupId>
+					<artifactId>nexus-staging-maven-plugin</artifactId>
+					<version>1.6.5</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
+
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
@@ -85,7 +100,20 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+
 		</plugins>
+
 	</build>
 
 </project>
