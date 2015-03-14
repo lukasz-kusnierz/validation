@@ -27,12 +27,15 @@ public final class IterableValidationEntry<T, ITERABLE extends Iterable<FIELD>, 
 	@Override
 	public Validated<ITERABLE> validate( final T subject ) {
 		final ITERABLE iterable = this.fieldExtractor.apply( subject );
+		//FIXME allow null
 		if ( null == iterable ) {
 			return new Valid<>( iterable );
 		}
 		for ( final FIELD element : iterable ) {
-			if( this.chain.validate( element ).isInvalid() ) {
-				return new Invalid<>( iterable );
+			final Validated<FIELD> validated = this.chain.validate( element );
+			//FIXME breakOnFailure
+			if ( validated.isInvalid() ) {
+				return new Invalid<>( iterable, validated.getFailureMessages() );
 			}
 		}
 		return new Valid<>( iterable );

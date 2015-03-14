@@ -25,7 +25,7 @@ public final class Validation<T> {
 	 * Creates Validation instance. There is no other way to do it.
 	 *
 	 * @param typeYouWantToValidate type you want to validate
-	 * @param <T> type you validate
+	 * @param <T>                   type you validate
 	 * @return Validation object
 	 */
 	public static <T> Validation<T> of( final Class<T> typeYouWantToValidate ) {
@@ -37,7 +37,7 @@ public final class Validation<T> {
 
 	/**
 	 * @param useMethodReferenceSyntax function extracting a field from the object under validation; use method reference syntax for readability
-	 * @param <FIELD> type of the field extracted from the object under validation
+	 * @param <FIELD>                  type of the field extracted from the object under validation
 	 * @return
 	 */
 	public <FIELD> ValidationEntryBuilder<T, FIELD> validate( final Function<T, FIELD> useMethodReferenceSyntax ) {
@@ -46,8 +46,8 @@ public final class Validation<T> {
 
 	/**
 	 * @param useMethodReferenceSyntax function extracting an <strong>iterable</strong> field from the object under validation; use method reference syntax for readability
-	 * @param <ITERABLE> iterable type of the field
-	 * @param <FIELD> type of the iterable
+	 * @param <ITERABLE>               iterable type of the field
+	 * @param <FIELD>                  type of the iterable
 	 * @return
 	 */
 	public <ITERABLE extends Iterable<FIELD>, FIELD> IterableValidationEntryBuilder<T, FIELD, ITERABLE> validateAll( final Function<T, ITERABLE> useMethodReferenceSyntax ) {
@@ -89,13 +89,15 @@ public final class Validation<T> {
 	 * @return Validated object
 	 */
 	public Validated<T> go( final T subject ) {
-		final List<Validated<?>> invalid = new LinkedList<>();
+		boolean invalid = false;
+		final List<String> failureMessages = new LinkedList<>();
 		for ( final ValidationEntry<T, ?> entry : this.entries ) {
 			final Validated<?> validated = entry.validate( subject );
 			if ( validated.isValid() ) {
 				continue;
 			}
-			invalid.add( validated );
+			failureMessages.addAll( validated.getFailureMessages() );
+			invalid = true;
 			if ( entry.isBreakOnFailure() ) {
 				break;
 			}
@@ -103,6 +105,6 @@ public final class Validation<T> {
 				break;
 			}
 		}
-		return invalid.isEmpty() ? new Valid<>( subject ) : new Invalid<>( subject );
+		return invalid ? new Valid<>( subject ) : new Invalid<>( subject, failureMessages );
 	}
 }

@@ -3,6 +3,8 @@ package org.lukaszkusnierz.validation.result;
 import org.lukaszkusnierz.validation.exception.CheckedValidationException;
 import org.lukaszkusnierz.validation.exception.RuntimeValidationException;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -91,6 +93,11 @@ public final class Valid<T> implements Validated<T>, OrThrow<T> {
 			throw new IllegalArgumentException( "Mapping function cannot be null. Use lambda or method reference syntax for short implementation" );
 		}
 		return new Valid<>( mapper.apply( this.reference ) );
+	}
+
+	@Override
+	public List<String> getFailureMessages() {
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override

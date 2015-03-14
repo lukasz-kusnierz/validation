@@ -3,17 +3,18 @@ package org.lukaszkusnierz.validation.result;
 import org.lukaszkusnierz.validation.exception.CheckedValidationException;
 import org.lukaszkusnierz.validation.exception.RuntimeValidationException;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 
 	private final T reference;
+	private final List<String> failureMessages;
 
-	public Invalid( final T reference ) {
+	public Invalid( final T reference, final List<String> failureMessages ) {
 		this.reference = reference;
+		this.failureMessages = null == failureMessages ? Collections.EMPTY_LIST : new ArrayList<>( failureMessages );
 	}
 
 	@Override
@@ -90,7 +91,12 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 		if ( null == mapper ) {
 			throw new IllegalArgumentException( "Mapping function cannot be null. Use lambda or method reference syntax for short implementation" );
 		}
-		return new Invalid<>( mapper.apply( this.reference ) );
+		return new Invalid<>( mapper.apply( this.reference ), this.failureMessages );
+	}
+
+	@Override
+	public List<String> getFailureMessages() {
+		return this.failureMessages.isEmpty() ? Collections.EMPTY_LIST : new ArrayList<>( this.failureMessages );
 	}
 
 	@Override

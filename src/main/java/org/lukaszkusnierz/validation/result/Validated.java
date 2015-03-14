@@ -1,5 +1,6 @@
 package org.lukaszkusnierz.validation.result;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -54,6 +55,8 @@ public interface Validated<T> {
 	Optional<T> asOptional();
 
 	<TARGET> Validated<TARGET> map( Function<T, TARGET> mapper );
+
+	List<String> getFailureMessages();
 
 	boolean equalReference( Validated<T> another );
 

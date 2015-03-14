@@ -1,12 +1,13 @@
 package org.lukaszkusnierz.validation;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.lukaszkusnierz.validation.result.Validated;
 import org.lukaszkusnierz.validation.validator.string.StringValidators;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 public class ValidationTest {
 
@@ -20,7 +21,7 @@ public class ValidationTest {
 				.validate( ComplexType::getText ).with( new StringValidators().exactLength( 11 ).chain() )
 				.go( complexType );
 		//verify
-		Assert.assertTrue( validationResult.isValid() );
+		assertTrue( validationResult.isValid() );
 	}
 
 	@Test
@@ -33,7 +34,7 @@ public class ValidationTest {
 				.validate( ComplexType::getText ).with( new StringValidators().exactLength( 10 ).chain() )
 				.go( complexType );
 		//verify
-		Assert.assertTrue( validationResult.isInvalid() );
+		assertTrue( validationResult.isInvalid() );
 	}
 
 	@Test
@@ -42,10 +43,10 @@ public class ValidationTest {
 		final ComplexType complexType = new ComplexType( 4, "description", null );
 		//examine
 		Validated<ComplexType> validationResult = Validation.of( ComplexType.class )
-				.validateAll( ComplexType::getAge ).with( i -> i > 18)
+				.validateAll( ComplexType::getAge ).with( i -> i > 18 )
 				.go( complexType );
 		//verify
-		Assert.assertTrue( validationResult.isValid() );
+		assertTrue( validationResult.isValid() );
 	}
 
 	@Test
@@ -57,7 +58,7 @@ public class ValidationTest {
 				.validateAll( ComplexType::getAge ).with( i -> i > 18 )
 				.go( complexType );
 		//verify
-		Assert.assertTrue( validationResult.isValid() );
+		assertTrue( validationResult.isValid() );
 	}
 
 	@Test
@@ -69,7 +70,7 @@ public class ValidationTest {
 				.validateAll( ComplexType::getAge ).with( i -> i > 18 )
 				.go( complexType );
 		//verify
-		Assert.assertTrue( validationResult.isInvalid() );
+		assertTrue( validationResult.isInvalid() );
 	}
 
 	private static class ComplexType {
