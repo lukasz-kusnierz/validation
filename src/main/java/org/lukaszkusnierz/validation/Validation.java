@@ -105,6 +105,6 @@ public final class Validation<T> {
 				break;
 			}
 		}
-		return invalid ? new Valid<>( subject ) : new Invalid<>( subject, failureMessages );
+		return invalid ? new Invalid<>( subject, failureMessages ) : new Valid<>( subject );
 	}
 }
