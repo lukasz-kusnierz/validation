@@ -57,7 +57,7 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 
 	@Override
 	public T checkedException() throws CheckedValidationException {
-		throw new CheckedValidationException();
+		throw new CheckedValidationException( this.failureMessages );
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 
 	@Override
 	public T runtimeException() throws RuntimeValidationException {
-		throw new RuntimeValidationException();
+		throw new RuntimeValidationException( this.failureMessages );
 	}
 
 	@Override
