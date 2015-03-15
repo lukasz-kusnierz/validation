@@ -7,6 +7,7 @@ import org.lukaszkusnierz.validation.validator.string.StringValidators;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ValidationTest {
@@ -59,6 +60,21 @@ public class ValidationTest {
 				.go( complexType );
 		//verify
 		assertTrue( validationResult.isValid() );
+	}
+
+	@Test
+	public void should_fail_on_null() {
+		//setup
+		//examine
+		Validated<ComplexType> validationResult = Validation.of( ComplexType.class )
+				.breakOnAnyFailure()
+				.notNull().otherwise( "Value cannot be null" )
+				.validateAll( ComplexType::getAge ).with( i -> i > 18 )
+				.go( null );
+		//verify
+		assertTrue( validationResult.isInvalid() );
+		assertEquals( 1, validationResult.getFailureMessages().size() );
+		assertEquals( "Value cannot be null", validationResult.getFailureMessages().get( 0 ) );
 	}
 
 	@Test

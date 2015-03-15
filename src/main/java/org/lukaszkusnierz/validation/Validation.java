@@ -1,8 +1,10 @@
 package org.lukaszkusnierz.validation;
 
+import org.lukaszkusnierz.validation.chain.ValidationChain;
 import org.lukaszkusnierz.validation.result.Invalid;
 import org.lukaszkusnierz.validation.result.Valid;
 import org.lukaszkusnierz.validation.result.Validated;
+import org.lukaszkusnierz.validation.validator.NotNullValidator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +19,7 @@ public final class Validation<T> {
 
 	private final LinkedList<ValidationEntry<T, ?>> entries = new LinkedList<>();
 	private boolean breakOnAnyFailure = false;
+	private ValidationChain<T> validationChain = ValidationChain.empty();
 
 	private Validation() {
 	}
@@ -33,6 +36,19 @@ public final class Validation<T> {
 			throw new IllegalArgumentException( "Class cannot be null, please provide the type you are going to validate or use Object.class when desperate" );
 		}
 		return new Validation<>();
+	}
+
+	public Validation<T> use( final ValidationChain<T> validationChain ) {
+		if ( null == validationChain ) {
+			throw new IllegalArgumentException( "ValidationChain cannot be null" );
+		}
+		this.validationChain = validationChain;
+		return this;
+	}
+
+	public Validation<T> notNull() {
+		this.validationChain.add( new NotNullValidator<>() );
+		return this;
 	}
 
 	/**
@@ -82,6 +98,21 @@ public final class Validation<T> {
 		return this;
 	}
 
+	public Validation<T> otherwise( final String message ) {
+		this.validationChain.otherwise( message );
+		return this;
+	}
+
+	public Validation<T> otherwise( final String format, final Object... params ) {
+		this.validationChain.otherwise( format, params );
+		return this;
+	}
+
+	public Validation<T> otherwise( final Function<T, String> failureMessageFactory ) {
+		this.validationChain.otherwise( failureMessageFactory );
+		return this;
+	}
+
 	/**
 	 * Triggers the validation process.
 	 *
@@ -91,6 +122,15 @@ public final class Validation<T> {
 	public Validated<T> go( final T subject ) {
 		boolean invalid = false;
 		final List<String> failureMessages = new LinkedList<>();
+
+		final Validated<T> validatedSubject = validationChain.validate( subject );
+		if ( validatedSubject.isInvalid() ) {
+			failureMessages.addAll( validatedSubject.getFailureMessages() );
+			if ( this.breakOnAnyFailure ) {
+				return new Invalid<T>( subject, failureMessages );
+			}
+		}
+
 		for ( final ValidationEntry<T, ?> entry : this.entries ) {
 			final Validated<?> validated = entry.validate( subject );
 			if ( validated.isValid() ) {
