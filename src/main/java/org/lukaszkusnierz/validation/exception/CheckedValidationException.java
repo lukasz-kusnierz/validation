@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CheckedValidationException extends Exception {
 
@@ -11,6 +12,10 @@ public class CheckedValidationException extends Exception {
 
 	public CheckedValidationException( final List<String> failureMessages ) {
 		this.failureMessages = null == failureMessages ? Collections.<String>emptyList() : new ArrayList<>( failureMessages );
+	}
+
+	public Optional<String> getAllFailureMessages() {
+		return hasFailureMessages() ? Optional.of( this.failureMessages.stream().collect( Collectors.joining("; ") ) ) : Optional.empty();
 	}
 
 	public List<String> getFailureMessages() {
