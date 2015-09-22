@@ -16,7 +16,7 @@ public interface OrThrow<T> {
 	 * @return object under validation, if valid
 	 * @throws CheckedValidationException if the object is invalid
 	 */
-	T checkedException() throws CheckedValidationException;
+	Valid<T> checkedException() throws CheckedValidationException;
 
 	/**
 	 * @param useMethodReferenceSyntaxToReferenceConstructor supplier creating new checked exception in case of invalid object; use method reference syntax for readability, preferably, reference the constructor
@@ -24,13 +24,13 @@ public interface OrThrow<T> {
 	 * @return object under validation, if valid
 	 * @throws EX if the object is invalid
 	 */
-	<EX extends Exception> T checkedException( Supplier<EX> useMethodReferenceSyntaxToReferenceConstructor ) throws EX;
+	<EX extends Exception> Valid<T> checkedException( Supplier<EX> useMethodReferenceSyntaxToReferenceConstructor ) throws EX;
 
 	/**
 	 * @return object under validation, if valid
 	 * @throws RuntimeValidationException if the object is invalid
 	 */
-	T runtimeException() throws RuntimeValidationException;
+	Valid<T> runtimeException() throws RuntimeValidationException;
 
 	/**
 	 * @param useMethodReferenceSyntaxToReferenceConstructor supplier creating new runtime exception in case of invalid object; use method reference syntax for readability, preferably, reference the constructor
@@ -38,5 +38,5 @@ public interface OrThrow<T> {
 	 * @return object under validation, if valid
 	 * @throws EX if the object is invalid
 	 */
-	<EX extends RuntimeException> T runtimeException( Supplier<EX> useMethodReferenceSyntaxToReferenceConstructor ) throws EX;
+	<EX extends RuntimeException> Valid<T> runtimeException( Supplier<EX> useMethodReferenceSyntaxToReferenceConstructor ) throws EX;
 }

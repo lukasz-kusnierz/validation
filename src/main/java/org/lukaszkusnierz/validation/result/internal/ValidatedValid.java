@@ -1,20 +1,23 @@
-package org.lukaszkusnierz.validation.result;
+package org.lukaszkusnierz.validation.result.internal;
 
 import org.lukaszkusnierz.validation.exception.CheckedValidationException;
 import org.lukaszkusnierz.validation.exception.RuntimeValidationException;
+import org.lukaszkusnierz.validation.result.OrThrow;
+import org.lukaszkusnierz.validation.result.Validated;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public final class Invalid<T> implements Validated<T>, OrThrow<T> {
+public final class ValidatedValid<T> implements Validated<T>, OrThrow<T> {
 
 	private final T reference;
-	private final List<String> failureMessages;
 
-	public Invalid( final T reference, final List<String> failureMessages ) {
+	public ValidatedValid(final T reference) {
 		this.reference = reference;
-		this.failureMessages = null == failureMessages ? Collections.EMPTY_LIST : new ArrayList<>( failureMessages );
 	}
 
 	@Override
@@ -24,17 +27,17 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 
 	@Override
 	public boolean isValid() {
-		return false;
-	}
-
-	@Override
-	public boolean isInvalid() {
 		return true;
 	}
 
 	@Override
+	public boolean isInvalid() {
+		return false;
+	}
+
+	@Override
 	public T or( final T alternative ) {
-		return alternative;
+		return this.reference;
 	}
 
 	@Override
@@ -42,12 +45,12 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 		if ( null == supplier ) {
 			throw new IllegalArgumentException( "Supplier cannot be null. Please note you can use method reference syntax to reference a constructor, ex: or( AtomicInteger::new )" );
 		}
-		return supplier.get();
+		return this.reference;
 	}
 
 	@Override
 	public T orNull() {
-		return null;
+		return this.reference;
 	}
 
 	@Override
@@ -56,34 +59,34 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 	}
 
 	@Override
-	public T checkedException() throws CheckedValidationException {
-		throw new CheckedValidationException( this.failureMessages );
+	public org.lukaszkusnierz.validation.result.Valid<T> checkedException() throws CheckedValidationException {
+		return new org.lukaszkusnierz.validation.result.Valid<>(reference);
 	}
 
 	@Override
-	public <EX extends Exception> T checkedException( final Supplier<EX> exceptionSupplier ) throws EX {
+	public <EX extends Exception> org.lukaszkusnierz.validation.result.Valid<T> checkedException( final Supplier<EX> exceptionSupplier ) throws EX {
 		if ( null == exceptionSupplier ) {
 			throw new IllegalArgumentException( "Exception supplier cannot be null, use method reference syntax to reference a constructor of your favourite exception, ex: orThrow().checkedException( IOException::new )" );
 		}
-		throw exceptionSupplier.get();
+		return new org.lukaszkusnierz.validation.result.Valid<T>(reference);
 	}
 
 	@Override
-	public T runtimeException() throws RuntimeValidationException {
-		throw new RuntimeValidationException( this.failureMessages );
+	public org.lukaszkusnierz.validation.result.Valid<T> runtimeException() throws RuntimeValidationException {
+		return new org.lukaszkusnierz.validation.result.Valid<T>(reference);
 	}
 
 	@Override
-	public <EX extends RuntimeException> T runtimeException( final Supplier<EX> exceptionSupplier ) throws EX {
+	public <EX extends RuntimeException> org.lukaszkusnierz.validation.result.Valid<T> runtimeException( final Supplier<EX> exceptionSupplier ) throws EX {
 		if ( null == exceptionSupplier ) {
 			throw new IllegalArgumentException( "Exception supplier cannot be null, use method reference syntax to reference a constructor of your favourite exception, ex: orThrow().runtimeException( NumberFormatException::new )" );
 		}
-		throw exceptionSupplier.get();
+		return new org.lukaszkusnierz.validation.result.Valid<T>(reference);
 	}
 
 	@Override
 	public Optional<T> asOptional() {
-		return Optional.empty();
+		return Optional.ofNullable( this.reference );
 	}
 
 	@Override
@@ -91,12 +94,12 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 		if ( null == mapper ) {
 			throw new IllegalArgumentException( "Mapping function cannot be null. Use lambda or method reference syntax for short implementation" );
 		}
-		return new Invalid<>( mapper.apply( this.reference ), this.failureMessages );
+		return new ValidatedValid<>( mapper.apply( this.reference ) );
 	}
 
 	@Override
 	public List<String> getFailureMessages() {
-		return this.failureMessages.isEmpty() ? Collections.EMPTY_LIST : new ArrayList<>( this.failureMessages );
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -125,7 +128,7 @@ public final class Invalid<T> implements Validated<T>, OrThrow<T> {
 		if ( obj == null || getClass() != obj.getClass() ) {
 			return false;
 		}
-		final Invalid other = ( Invalid ) obj;
+		final ValidatedValid other = (ValidatedValid) obj;
 		return Objects.equals( this.reference, other.reference );
 	}
 }

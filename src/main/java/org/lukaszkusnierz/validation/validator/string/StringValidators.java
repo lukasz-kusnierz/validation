@@ -5,6 +5,16 @@ import org.lukaszkusnierz.validation.validator.NotNullValidator;
 
 public class StringValidators extends ValidationChainBuilder<String> {
 
+	public StringValidators breakOnAnyFailure() {
+		_breakOnAnyFailure();
+		return this;
+	}
+
+	public StringValidators breakOnFailure() {
+		_breakOnFailure();
+		return this;
+	}
+
 	public StringValidators notBlank() {
 		chain().add(new NotBlankValidator());
 		return this;
@@ -31,6 +41,16 @@ public class StringValidators extends ValidationChainBuilder<String> {
 
 	public StringValidators exactLength(final int length) {
 		chain().add(subject -> null != subject && subject.length() == length);
+		return this;
+	}
+
+	public StringValidators numeric() {
+		chain().add(new NumericValidator());
+		return this;
+	}
+
+	public StringValidators alphanumeric() {
+		chain().add(new AlphanumericValidator());
 		return this;
 	}
 }

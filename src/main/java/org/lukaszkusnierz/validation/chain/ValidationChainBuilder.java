@@ -10,20 +10,28 @@ public abstract class ValidationChainBuilder<T> {
 		return this.chain;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash( chain );
+	protected void _breakOnAnyFailure() {
+		this.chain.breakOnAnyFailure();
+	}
+
+	protected void _breakOnFailure() {
+		this.chain.breakOnFailure();
 	}
 
 	@Override
-	public boolean equals( final Object obj ) {
-		if ( this == obj ) {
+	public int hashCode() {
+		return Objects.hash(chain);
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
 			return true;
 		}
-		if ( obj == null || getClass() != obj.getClass() ) {
+		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		final ValidationChainBuilder other = ( ValidationChainBuilder ) obj;
-		return Objects.equals( this.chain, other.chain );
+		final ValidationChainBuilder other = (ValidationChainBuilder) obj;
+		return Objects.equals(this.chain, other.chain);
 	}
 }

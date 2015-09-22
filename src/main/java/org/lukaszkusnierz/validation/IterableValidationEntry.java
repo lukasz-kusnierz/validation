@@ -1,8 +1,8 @@
 package org.lukaszkusnierz.validation;
 
 import org.lukaszkusnierz.validation.chain.ValidationChain;
-import org.lukaszkusnierz.validation.result.Invalid;
-import org.lukaszkusnierz.validation.result.Valid;
+import org.lukaszkusnierz.validation.result.internal.ValidatedInvalid;
+import org.lukaszkusnierz.validation.result.internal.ValidatedValid;
 import org.lukaszkusnierz.validation.result.Validated;
 
 import java.util.function.Function;
@@ -29,16 +29,16 @@ public final class IterableValidationEntry<T, ITERABLE extends Iterable<FIELD>, 
 		final ITERABLE iterable = this.fieldExtractor.apply( subject );
 		//FIXME allow null
 		if ( null == iterable ) {
-			return new Valid<>( iterable );
+			return new ValidatedValid<>( iterable );
 		}
 		for ( final FIELD element : iterable ) {
 			final Validated<FIELD> validated = this.chain.validate( element );
 			//FIXME breakOnFailure
 			if ( validated.isInvalid() ) {
-				return new Invalid<>( iterable, validated.getFailureMessages() );
+				return new ValidatedInvalid<>( iterable, validated.getFailureMessages() );
 			}
 		}
-		return new Valid<>( iterable );
+		return new ValidatedValid<>( iterable );
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package org.lukaszkusnierz.validation.chain;
 
-import org.lukaszkusnierz.validation.result.Invalid;
-import org.lukaszkusnierz.validation.result.Valid;
+import org.lukaszkusnierz.validation.result.internal.ValidatedInvalid;
+import org.lukaszkusnierz.validation.result.internal.ValidatedValid;
 import org.lukaszkusnierz.validation.result.Validated;
 import org.lukaszkusnierz.validation.validator.NotNullValidator;
 import org.lukaszkusnierz.validation.validator.Validator;
@@ -104,9 +104,9 @@ public final class ValidationChain<T> {
 			}
 		}
 		if ( failedValidators.isEmpty() ) {
-			return new Valid<>( subject );
+			return new ValidatedValid<>( subject );
 		}
-		return new Invalid<>( subject, failureMessages );
+		return new ValidatedInvalid<>( subject, failureMessages );
 	}
 
 	@Override

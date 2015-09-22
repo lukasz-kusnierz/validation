@@ -1,8 +1,8 @@
 package org.lukaszkusnierz.validation;
 
 import org.lukaszkusnierz.validation.chain.ValidationChain;
-import org.lukaszkusnierz.validation.result.Invalid;
-import org.lukaszkusnierz.validation.result.Valid;
+import org.lukaszkusnierz.validation.result.internal.ValidatedInvalid;
+import org.lukaszkusnierz.validation.result.internal.ValidatedValid;
 import org.lukaszkusnierz.validation.result.Validated;
 import org.lukaszkusnierz.validation.validator.NotNullValidator;
 
@@ -127,7 +127,7 @@ public final class Validation<T> {
 		if ( validatedSubject.isInvalid() ) {
 			failureMessages.addAll( validatedSubject.getFailureMessages() );
 			if ( this.breakOnAnyFailure ) {
-				return new Invalid<T>( subject, failureMessages );
+				return new ValidatedInvalid<T>( subject, failureMessages );
 			}
 		}
 
@@ -145,6 +145,6 @@ public final class Validation<T> {
 				break;
 			}
 		}
-		return invalid ? new Invalid<>( subject, failureMessages ) : new Valid<>( subject );
+		return invalid ? new ValidatedInvalid<>( subject, failureMessages ) : new ValidatedValid<>( subject );
 	}
 }
