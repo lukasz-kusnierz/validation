@@ -10,6 +10,10 @@ public class RuntimeValidationException extends RuntimeException {
 
 	private final List<String> failureMessages;
 
+	public RuntimeValidationException( final String failureMessage, final Object... params ) {
+		this( Collections.singletonList( String.format( failureMessage, params ) ) );
+	}
+
 	public RuntimeValidationException( final List<String> failureMessages ) {
 		super(null == failureMessages ? null : failureMessages.stream().collect( Collectors.joining( "; " ) ) );
 		this.failureMessages = null == failureMessages ? Collections.<String>emptyList() : new ArrayList<>( failureMessages );

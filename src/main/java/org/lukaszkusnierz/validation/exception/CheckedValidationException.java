@@ -10,6 +10,10 @@ public class CheckedValidationException extends Exception {
 
 	private final List<String> failureMessages;
 
+	public CheckedValidationException( final String failureMessage, final Object... params ) {
+		this( Collections.singletonList( String.format( failureMessage, params ) ) );
+	}
+
 	public CheckedValidationException( final List<String> failureMessages ) {
 		super(null == failureMessages ? null : failureMessages.stream().collect( Collectors.joining( "; " ) ) );
 		this.failureMessages = null == failureMessages ? Collections.<String>emptyList() : new ArrayList<>( failureMessages );
