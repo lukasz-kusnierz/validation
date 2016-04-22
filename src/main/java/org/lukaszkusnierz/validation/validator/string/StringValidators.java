@@ -35,7 +35,7 @@ public class StringValidators extends ValidationChainBuilder<String> {
 	}
 
 	public StringValidators maxLength(final int maxLength) {
-		chain().add(subject -> null != subject && subject.length() <= maxLength);
+		chain().add(subject -> null == subject || subject.length() <= maxLength);
 		return this;
 	}
 

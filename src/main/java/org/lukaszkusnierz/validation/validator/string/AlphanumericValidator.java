@@ -7,7 +7,7 @@ public class AlphanumericValidator implements Validator<String> {
 	@Override
 	public boolean isValid(final String subject) {
 		if (null == subject) {
-			return false;
+			return true;
 		}
 		final int length = subject.length();
 		for (int i = 0; i < length; i++) {
