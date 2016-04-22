@@ -2,6 +2,7 @@ package org.lukaszkusnierz.validation;
 
 import org.lukaszkusnierz.validation.chain.ValidationChain;
 import org.lukaszkusnierz.validation.chain.ValidationChainBuilder;
+import org.lukaszkusnierz.validation.validator.NotNullValidator;
 import org.lukaszkusnierz.validation.validator.Validator;
 
 import java.util.function.Function;
@@ -35,5 +36,9 @@ public final class ValidationEntryBuilder<T, FIELD> {
 			throw new IllegalArgumentException("ValidationChainBuilder cannot be null");
 		}
 		return this.validation.add(new SimpleValidationEntry<>(validationChainBuilder.chain(), this.fieldExtractor));
+	}
+
+	public Validation<T> notNull() {
+		return with( new NotNullValidator<>() );
 	}
 }

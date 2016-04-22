@@ -6,10 +6,7 @@ import org.lukaszkusnierz.validation.result.Validated;
 import org.lukaszkusnierz.validation.validator.NotNullValidator;
 import org.lukaszkusnierz.validation.validator.Validator;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 
 public final class ValidationChain<T> {
@@ -47,7 +44,7 @@ public final class ValidationChain<T> {
 
 	public ValidationChain<T> otherwise( final String message ) {
 		if ( this.entries.isEmpty() ) {
-			throw new IllegalStateException( "You have to add at least one validator before you use otherwise(...)" );
+			throw new IllegalStateException( "You have to add at least one validator before you use otherwise(\"" + message + "\")" );
 		}
 		if ( null == message ) {
 			throw new IllegalArgumentException( "Failure message cannot be null" );
@@ -58,7 +55,7 @@ public final class ValidationChain<T> {
 
 	public ValidationChain<T> otherwise( final String format, final Object... params ) {
 		if ( this.entries.isEmpty() ) {
-			throw new IllegalStateException( "You have to add at least one validator before you use otherwise(...)" );
+			throw new IllegalStateException( "You have to add at least one validator before you use otherwise( String.format( \"" + format + "\", " + Arrays.toString( params ) + " ) )" );
 		}
 		if ( null == format ) {
 			throw new IllegalArgumentException( "Failure message format cannot be null" );
@@ -69,7 +66,7 @@ public final class ValidationChain<T> {
 
 	public ValidationChain<T> otherwise( final Function<T, String> failureMessageFactory ) {
 		if ( this.entries.isEmpty() ) {
-			throw new IllegalStateException( "You have to add at least one validator before you use otherwise(...)" );
+			throw new IllegalStateException( "You have to add at least one validator before you use otherwise( " + failureMessageFactory + " )" );
 		}
 		if ( null == failureMessageFactory ) {
 			throw new IllegalArgumentException( "Failure message factory cannot be null" );
